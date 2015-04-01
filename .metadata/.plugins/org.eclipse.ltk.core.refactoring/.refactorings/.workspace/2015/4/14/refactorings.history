@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;PedestrianDetectionCpp/Old&apos;" deleteContents="false" description="Delete resource &apos;PedestrianDetectionCpp/Old&apos;" element1="/PedestrianDetectionCpp/Old" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1427890226620"/>&#x0A;<refactoring comment="Delete resource &apos;PedestrianDetectionCpp/Gray_Image.jpg&apos;" deleteContents="false" description="Delete resource &apos;PedestrianDetectionCpp/Gray_Image.jpg&apos;" element1="/PedestrianDetectionCpp/Gray_Image.jpg" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1427891661271"/>
+</session>

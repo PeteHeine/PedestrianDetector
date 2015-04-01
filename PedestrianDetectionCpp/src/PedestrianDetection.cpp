@@ -6,6 +6,13 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
+// Setting up: C++11
+	// http://stackoverflow.com/questions/9131763/eclipse-cdt-c11-c0x-support
+// Setting up opencv:
+	// http://docs.opencv.org/doc/tutorials/introduction/linux_eclipse/linux_eclipse.html
+// Matio is required to read and write mat-files.
+	// http://sourceforge.net/projects/matio/
+
 #include <iostream>
 #include <cv.h>
 #include <highgui.h>
@@ -20,7 +27,8 @@ using namespace cv;
 
 int main(int argc, char** argv) {
 
-	Mat image = imread(argv[1], 1);
+	string dirImage = "../TestImages/I00000.png";
+	Mat image = imread(dirImage, 1);
 
 	if (argc != 2 || !image.data) {
 		printf("No image data \n");
@@ -41,8 +49,8 @@ int main(int argc, char** argv) {
 		putText(image, to_string((int)(round(bbs[iBbs].score5))), Point(bbs[iBbs].x1,bbs[iBbs].y2), FONT_HERSHEY_SIMPLEX, 1, Scalar(0,0,0)); //, int thickness=1, int lineType=8, bool bottomLeftOrigin=false
 	}
 
-	//namedWindow("BoundingsBox", CV_WINDOW_AUTOSIZE);
-	//imshow("BoundingsBox",image);
+	namedWindow("BoundingsBox", CV_WINDOW_AUTOSIZE);
+	imshow("BoundingsBox",image);
 
 	printf("Code is done!!");
 
