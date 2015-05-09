@@ -23,9 +23,11 @@ void pdGradientMag(cv::Mat inputImage, int channel, int fullIn,cv::Mat& Magnitud
 cv::Mat pdGradientMagNorm(cv::Mat inputImageM, cv::Mat inputImageS, float norm);
 cv::Mat pdGradientHist(cv::Mat magnitude, cv::Mat orientation, int binSize, int nOrientations, int softBin, int useHog, float clipHog, bool full);
 cv::Mat pdImPad(cv::Mat inputImage, cv::Size2i pad, std::string padType);
-std::vector<bbType> pfDetect(float *chns, int shrink, int modelHt, int modelWd, int stride,float cascThr, int height, int width, int nChannels, PedModel pedestrianModel);
+//std::vector<bbType> pfDetect(float *chns, int shrink, int modelHt, int modelWd, int stride,float cascThr, int height, int width, int nChannels, PedModel pedestrianModel);
+std::vector<bbType> pfDetect(cv::Mat inputData, int shrink, int modelHt, int modelWd, int stride,float cascThr, int height, int width, int nChannels, PedModel pedestrianModel);
 cv::Mat pdRgbConvert(cv::Mat image);
-template<class iT, class oT> oT* rgbConvert( iT *I, int n, int d, int flag, oT nrm );
+//template<class iT, class oT> oT* rgbConvert( iT *I, int n, int d, int flag, oT nrm );
+template<class iT, class oT> void rgbConvert( iT *I, oT* J, int n, int d, int flag, oT nrm);
 //template<class T> void resampleCoef(int ha, int hb, int &n, int *&yas,int *&ybs, T *&wts, int bd[2], int pad = 0);
 
 //// compute interpolation values for single column for resampling

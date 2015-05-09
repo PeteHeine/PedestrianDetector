@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;PedestrianDetectionCpp/pedModels&apos; to &apos;pedmodels&apos;" description="Rename resource &apos;pedModels&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="pedModels" name="pedmodels" stamp="1430917043517" updateReferences="true"/>
+</session>

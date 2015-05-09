@@ -1,0 +1,116 @@
+//============================================================================
+// Name        : PedestrianDetection.cpp
+// Author      : 
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+// Setting up: C++11
+// http://stackoverflow.com/questions/9131763/eclipse-cdt-c11-c0x-support
+// Setting up opencv:
+// http://docs.opencv.org/doc/tutorials/introduction/linux_eclipse/linux_eclipse.html
+// Matio is required to read and write mat-files.
+// http://sourceforge.net/projects/matio/
+
+#include <iostream>
+#include <cv.h>
+#include <highgui.h>
+#include <math.h>
+#include <algorithm>
+#include <vector>
+#include "PedestrianDetector.hpp"
+#include <dirent.h>
+#include <string.h>
+
+using namespace std;
+using namespace cv;
+void showBB(vector<bbType> bbs, Mat image, bool wait){
+	for(int iBbs = 0; iBbs < bbs.size(); iBbs++) {
+		printf("n%d, x: %f, %f, %f, %f, %f \n",iBbs,bbs[iBbs].x1,bbs[iBbs].y2, bbs[iBbs].width3, bbs[iBbs].height4, bbs[iBbs].score5 );
+		rectangle(image, Rect(bbs[iBbs].x1,bbs[iBbs].y2,bbs[iBbs].width3, bbs[iBbs].height4), Scalar(0,0,255,125), 2, 8, 0 );
+		putText(image, to_string((int)(round(bbs[iBbs].score5))), Point(bbs[iBbs].x1,bbs[iBbs].y2), FONT_HERSHEY_SIMPLEX, 1, Scalar(0,0,0)); //, int thickness=1, int lineType=8, bool bottomLeftOrigin=false
+	}
+
+	if(wait)
+		namedWindow("BoundingsBox", CV_WINDOW_AUTOSIZE);
+	imshow("BoundingsBox",image);
+
+	printf("Code is done!!");
+
+
+	waitKey(10);
+}
+int main(int argc, char** argv) {
+
+	string dirImage = "../TestImages/KimTest.jpg";
+	//Mat image = imread(dirImage, 1);
+
+	Mat image;
+	struct dirent *ent;
+	string dirImages = "/home/pistol/Desktop/DataFolder/2014-11-03-14-37-11/WebCam";
+	DIR *dir = opendir(dirImages.data());
+
+	char * pch;
+
+
+	resize(imread(dirImage, 1), image, Size(), 0.5, 0.5);
+	if (!image.data) {
+		printf("No image data \n");
+		return -1;
+	}
+	cout << image.cols << "x" << image.rows << endl;
+	PedestrianDetector oPedDetector("/home/pistol/MatlabCode/piotr_toolbox/toolbox/detector/models/AcfInriaDetector.mat");
+
+	clock_t start, end;
+	start = clock();
+	vector<bbType> bbs = oPedDetector.pedDetector(image);
+	end = clock();
+	double time = (double) (end-start) / CLOCKS_PER_SEC * 1000.0;
+	cout << "\n t1:" << time << " ms\n";
+	showBB(bbs, image,1);
+
+
+	struct dirent **namelist;
+	int i;
+
+	int n = scandir("dirImages", &namelist, 0, alphasort);
+	if (n < 0)
+		perror("scandir");
+	else {
+		for (i = 0; i < n; i++) {
+			printf("%s\n", namelist[i]->d_name);
+
+
+			//while ((ent = readdir (dir)) != NULL) {
+			string fileName = namelist[i]->d_name;
+			string pch=strrchr(namelist[i]->d_name,'.');
+			free(namelist[i]);
+			if(pch.compare(".jpg") == 0)
+			{
+				printf ("%s\n", fileName.data());
+				string dirImage = (dirImages+ '/' +fileName);
+				Mat inputImage = imread(dirImage.data(), 1);
+				resize(inputImage, image, Size(), 0.5, 0.5);
+
+				clock_t start, end;
+				start = clock();
+				bbs = oPedDetector.pedDetector(image);
+				end = clock();
+				double time = (double) (end-start) / CLOCKS_PER_SEC * 1000.0;
+				cout << "\n t1:" << time << " ms\n";
+
+				showBB(bbs, image,0);
+			}
+			//closedir (dir);
+		}
+	}
+
+
+
+
+	free(namelist);
+
+	return 0;
+}
+
