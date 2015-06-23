@@ -276,7 +276,6 @@ Mat PedestrianDetector::convert_OpenCV_2_PD(Mat inputImage, bool isChar) {
 void PedestrianDetector::convert_OpenCV_2_PD_FAST(float* from, float* to,unsigned int nRows, unsigned int nCols, unsigned int channels) {
 	unsigned int nRowsCols = nRows*nCols;
 	unsigned int n = 0;
-	unsigned int multChRC[channels];
 
 	for(int ch = channels-1; ch >= 0; ch--)
 	for (unsigned int row = 0; row < nRows;row++)

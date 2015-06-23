@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="310" key="DIALOG_WIDTH"/>
-		<item value="1292" key="DIALOG_Y_ORIGIN"/>
-		<item value="436" key="DIALOG_HEIGHT"/>
-		<item value="705" key="DIALOG_X_ORIGIN"/>
+		<item value="330" key="DIALOG_WIDTH"/>
+		<item value="384" key="DIALOG_Y_ORIGIN"/>
+		<item value="1046" key="DIALOG_X_ORIGIN"/>
+		<item value="456" key="DIALOG_HEIGHT"/>
 		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="convert_PD_2_OpenCV" key="selection"/>
+		<item value="10" key="selection"/>
 		<list key="findhistory">
+			<item value="10"/>
 			<item value="convert_PD_2_OpenCV"/>
+			<item value="convert_OpenCV_2_PD"/>
 			<item value="showDataFloat"/>
 			<item value="resolutionHorisontal"/>
 			<item value="FOV_verticalRad"/>
 			<item value="inputImage"/>
 			<item value="to_string"/>
-			<item value="sort_indexes"/>
-			<item value="sort_index"/>
 		</list>
 		<list key="replacehistory">
 		</list>

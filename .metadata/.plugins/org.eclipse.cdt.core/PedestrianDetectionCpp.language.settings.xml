@@ -292,7 +292,7 @@
 					<entry kind="macro" name="__GNUC_MINOR__" value="8">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="macro" name="__GNUC_PATCHLEVEL__" value="2">
+					<entry kind="macro" name="__GNUC_PATCHLEVEL__" value="4">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__GNUC__" value="4">
@@ -673,7 +673,7 @@
 					<entry kind="macro" name="__USER_LABEL_PREFIX__" value="">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="macro" name="__VERSION__" value="&quot;4.8.2&quot;">
+					<entry kind="macro" name="__VERSION__" value="&quot;4.8.4&quot;">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__WCHAR_MAX__" value="2147483647">
@@ -1041,7 +1041,7 @@
 					<entry kind="macro" name="__GNUC_MINOR__" value="8">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="macro" name="__GNUC_PATCHLEVEL__" value="2">
+					<entry kind="macro" name="__GNUC_PATCHLEVEL__" value="4">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__GNUC_STDC_INLINE__" value="1">
@@ -1440,7 +1440,7 @@
 					<entry kind="macro" name="__USER_LABEL_PREFIX__" value="">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="macro" name="__VERSION__" value="&quot;4.8.2&quot;">
+					<entry kind="macro" name="__VERSION__" value="&quot;4.8.4&quot;">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__WCHAR_MAX__" value="2147483647">
@@ -1817,7 +1817,7 @@
 					<entry kind="macro" name="__GNUC_MINOR__" value="8">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="macro" name="__GNUC_PATCHLEVEL__" value="2">
+					<entry kind="macro" name="__GNUC_PATCHLEVEL__" value="4">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__GNUC__" value="4">
@@ -2198,7 +2198,7 @@
 					<entry kind="macro" name="__USER_LABEL_PREFIX__" value="">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="macro" name="__VERSION__" value="&quot;4.8.2&quot;">
+					<entry kind="macro" name="__VERSION__" value="&quot;4.8.4&quot;">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__WCHAR_MAX__" value="2147483647">
@@ -2569,7 +2569,7 @@
 					<entry kind="macro" name="__GNUC_MINOR__" value="8">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="macro" name="__GNUC_PATCHLEVEL__" value="2">
+					<entry kind="macro" name="__GNUC_PATCHLEVEL__" value="4">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__GNUC__" value="4">
@@ -2959,7 +2959,7 @@
 					<entry kind="macro" name="__USER_LABEL_PREFIX__" value="">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="macro" name="__VERSION__" value="&quot;4.8.2&quot;">
+					<entry kind="macro" name="__VERSION__" value="&quot;4.8.4&quot;">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__WCHAR_MAX__" value="2147483647">

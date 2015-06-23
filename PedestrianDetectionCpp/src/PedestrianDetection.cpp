@@ -27,6 +27,112 @@
 
 using namespace std;
 using namespace cv;
+
+void makeOwnConvImplementation() {
+	int imageSize = 100;
+	int kernelSize = 3;
+	Mat inputImage(imageSize,imageSize,CV_32FC1);
+	Mat outputImage(imageSize,imageSize,CV_32FC1);
+	Mat outputImage2(imageSize,imageSize,CV_32FC1);
+	Mat kernelFilter(kernelSize,kernelSize,CV_32FC1);
+	Mat kernelConv(kernelSize,kernelSize,CV_32FC1);
+
+	clock_t start, end;
+
+
+	bool showData = 0;
+
+	cv::randn(inputImage,  0, 1);
+	cv::randn(kernelFilter,  0, 1);
+
+	flip(kernelFilter,kernelConv,-1);
+	Point anchor(kernelFilter.cols - kernelFilter.cols/2 -1, kernelFilter.rows - kernelFilter.rows/2 -1);
+	int borderMode = BORDER_CONSTANT;
+
+	//	cout << inputImage << endl;
+	//	float* data = (float*)inputImage.data;
+	//	for(int iiCol = 0; iiCol < imageSize; iiCol++) {
+	//		for(int iRow = 0; iRow < imageSize; iRow++) {
+	//			cout << data[iRow + iiCol*inputImage.rows] << ", ";
+	//		}
+	//		cout << endl;
+	//	}
+
+	start = clock();
+	filter2D(inputImage,outputImage,inputImage.depth(),kernelFilter,anchor, 0,borderMode);
+	end = clock();
+	double t1 = (double) (end-start);
+	cout << "\n t1:" <<  t1/ CLOCKS_PER_SEC * 1000.0 << " ms\n";
+
+	if(showData)
+		cout << outputImage << endl;
+
+
+
+
+	int nKR = kernelConv.rows;
+	int nKC = kernelConv.cols;
+	int nIR = inputImage.rows;
+	int nIC = inputImage.cols;
+	int shiftKernelIndexR = (nKR-1)/2;
+	int shiftKernelIndexC = (nKC-1)/2;
+	int cRowIndex;
+	int cColIndex;
+	int cColIndex2;
+	int cColIndex3;
+	int iImageC = 0;
+	int iImage = 0;
+	float* pInputImage = (float*)inputImage.data;
+	float* pOutputImage2 = (float*)outputImage2.data;
+	float* pKernel = (float*) kernelConv.data;
+	start = clock();
+	int loopupKernelRow[nKR];
+	for(int n = 0; n < nKR; n++) {
+		loopupKernelRow[n] = -n+shiftKernelIndexR;
+	}
+
+	int loopupKernelCol[nKC];
+	for(int n = 0; n < nKC; n++) {
+		loopupKernelCol[n] = -n+shiftKernelIndexC;
+		cout << loopupKernelCol[n] << endl;
+	}
+
+	for(int iiCol = 0; iiCol < nIC; iiCol++) {
+		iImageC = iiCol*outputImage2.rows;
+		for(int iRow = 0; iRow < nIR; iRow++) {
+			iImage = iRow + iiCol*outputImage2.rows;
+
+			for(int iiiiKernelCol = 0; iiiiKernelCol < nKC; iiiiKernelCol++) {
+				cColIndex = iiCol+loopupKernelCol[iiiiKernelCol];
+				cColIndex2 = cColIndex*inputImage.rows;
+				cColIndex3 = iiiiKernelCol*kernelConv.rows;
+				//cColIndex = iiCol-iiiiKernelCol+shiftKernelIndexC;
+				for(int iiiKernelRow = 0; iiiKernelRow < nKR; iiiKernelRow++) {
+
+					cRowIndex = iRow+loopupKernelRow[iiiKernelRow];
+					//cRowIndex = iRow-iiiKernelRow+shiftKernelIndexR;
+					//if(cRowIndex>=0 && cRowIndex<nIR && cColIndex>=0 && cColIndex<nIC) {
+					//outputImage2.at<float>(iRow,iiCol) = outputImage2.at<float>(iRow,iiCol)+ kernelConv.at<float>(iiiKernelRow,iiiiKernelCol)*inputImage.at<float>(cRowIndex,cColIndex);
+					//cout << outputImage2.at<float>(iRow,iiCol) << ", " << endl;
+					//pOutputImage2[iRow + iiCol*outputImage2.rows]= pOutputImage2[iRow + iiCol*outputImage2.rows] + pKernel[iiiKernelRow + iiiiKernelCol*kernelConv.rows]*pInputImage[cRowIndex + cColIndex*inputImage.rows];
+					pOutputImage2[iImage]= pOutputImage2[iImage] + pKernel[iiiKernelRow +cColIndex3]*pInputImage[cRowIndex + cColIndex2];
+					//}
+				}
+			}
+		}
+	}
+
+	end = clock();
+	double t2 = (double) (end-start);
+	cout << "\n t1:" << t2 / CLOCKS_PER_SEC * 1000.0 << " ms\n";
+	cout << "ratio:" << t1/t2 << endl;;
+
+	if(showData)
+		cout << outputImage2 << endl;
+}
+void my2DConv() {
+
+}
 void showBB(vector<bbType> bbs, Mat image, bool wait){
 	double alpha = 0.3;
 	double threshold = 50;
@@ -77,15 +183,15 @@ int main(int argc, char** argv) {
 
 
 	string dirImage = "pedmodels/InriaTest.png";
-	//string dirImage = "pedmodels/KimTest.jpg";
-	//string dirImage = "pedmodels/MarkTest.jpg";
+	//makeOwnConvImplementation();
+
 	vector<bbType> bbs;
 	double FOV_verticalDeg = 47; // Vertical field-of-view of camera.
 	double FOV_horizontalDeg = 50; //83;
 	double angleTiltDegrees = 7; // Downward tilt in degrees.
 	double cameraHeight = 1.9; // Height Position of camera.
 
-	double imageResize = 0.5;
+	double imageResize = 0.75;
 	//Mat image = imread(dirImage, 1);
 
 	Mat image, inputImage;
@@ -139,45 +245,47 @@ int main(int argc, char** argv) {
 
 	}
 
-	bool useWholeFolder = true;
-	if(useWholeFolder) {
-		struct dirent **namelist;
-		int i;
-		string fileName;
-		//string pch;
-		int n = scandir(dirImages.data(), &namelist, 0, alphasort);
-		if (n < 0)
-			perror("scandir");
-		else {
-			for (i = 0; i < n; i++) {
-				printf("%s\n", namelist[i]->d_name);
-
-
-				//while ((ent = readdir (dir)) != NULL) {
-				fileName = namelist[i]->d_name;
-				string pch=strrchr(namelist[i]->d_name,'.');
-				free(namelist[i]);
-				if(pch.compare(".jpg") == 0)
-				{
-					//printf ("%s\n", fileName.data());
-					string dirImage = (dirImages+ '/' +fileName);
-					inputImage = imread(dirImage.data(), 1);
-					resize(inputImage, image, Size(), imageResize,imageResize);
-
-					clock_t start, end;
-					start = clock();
-					bbs = oPedDetector.pedDetector(image);
-					end = clock();
-					double time = (double) (end-start) / CLOCKS_PER_SEC * 1000.0;
-					cout << "\n t1:" << time << " ms\n";
-					showBB(bbs, image,0);waitKey(10);
-
-				}
-				//closedir (dir);
-			}
-		}
-		free(namelist);
-	}
+//	bool useWholeFolder = true;
+//	if(useWholeFolder) {
+//		struct dirent **namelist;
+//		int i;
+//		string fileName;
+//		//string pch;
+//		int n = scandir(dirImages.data(), &namelist, 0, alphasort);
+//		if (n < 0)
+//			perror("scandir");
+//		else {
+//			for (i = 200; i < n; i++) {
+//				printf("%s\n", namelist[i]->d_name);
+//
+//
+//				//while ((ent = readdir (dir)) != NULL) {
+//				fileName = namelist[i]->d_name;
+//				string pch=strrchr(namelist[i]->d_name,'.');
+//				free(namelist[i]);
+//				if(pch.compare(".jpg") == 0)
+//				{
+//					//printf ("%s\n", fileName.data());
+//					string dirImage = (dirImages+ '/' +fileName);
+//					inputImage = imread(dirImage.data(), 1);
+//					resize(inputImage, image, Size(), imageResize,imageResize);
+//
+//					clock_t start, end;
+//					start = clock();
+//					bbs = oPedDetector.pedDetector(image);
+//					end = clock();
+//					double time = (double) (end-start) / CLOCKS_PER_SEC * 1000.0;
+//					cout << "\n t1:" << time << " ms\n";
+//					showBB(bbs, image,0);
+//					waitKey(0);
+//					waitKey(10);
+//
+//				}
+//				//closedir (dir);
+//			}
+//		}
+//		free(namelist);
+//	}
 	return 0;
 }
 
